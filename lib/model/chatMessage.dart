@@ -6,12 +6,14 @@ class ChatMessage {
   late DateTime dateTime;
   late SendFile sendFile;
   late String messageType;
+  late String userName;
   ChatMessage({
     required this.message,
     required this.userID,
     required this.dateTime,
     required this.sendFile,
     required this.messageType,
+    required this.userName,
   });
 
   factory ChatMessage.fromJson(Map<String, dynamic> msg) {
@@ -22,7 +24,8 @@ class ChatMessage {
         messageType: msg["messageType"],
         sendFile: SendFile.fromJson(
           msg["fileDetails"],
-        )
+        ),
+        userName: msg["userName"]
         // messageType: msg["messageType"],
         );
   }
@@ -38,11 +41,11 @@ class SendFile {
   factory SendFile.fromJson(Map<String, dynamic> msg) {
     return SendFile(
       fileName: msg["fileName"],
-      fileArray: msg["fileArray"],
+      fileArray: Uint8List.fromList(List<int>.from(msg["fileArray"])),
     );
   }
   Map<String, dynamic> toJson() => {
         "fileName": fileName,
-        "fileArray": fileArray,
+        "fileArray": Uint8List.fromList(new List<int>.from(fileArray)),
       };
 }
